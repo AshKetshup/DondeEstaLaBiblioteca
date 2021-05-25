@@ -7,6 +7,8 @@
 #include "debug.h"
 
 
+
+
 // TODO
 void free_list() {}
 void free_tree() {}
@@ -39,3 +41,26 @@ void free_world(struct world *w) {
 // 		free(w->students[i].eval);
 // 	free(w->students);
 // }
+
+
+/* Método geral - conversão de date_t para string */
+char *datetostr(char *s, date_t date) {
+	sprintf(s, "%02" PRIu8 ".%02" PRIu8 ".%04" PRIu16,
+		date.day,
+		date.month,
+		date.year
+	);
+	return s;
+}
+
+
+const char const *strofdate(date_t date) {
+	char s[11];
+	sprintf(s, "/%02" PRIu8 "/%02" PRIu8 "%04" PRIu16,
+		date.day,
+		date.month,
+		date.year
+	);
+	return (const char const *) s;
+}
+
