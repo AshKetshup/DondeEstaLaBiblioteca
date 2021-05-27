@@ -30,6 +30,23 @@ int main(int argc, char const *argv[]) {
 	return 0;
 }
 
+// Menu Ficheiro
+void tui_ficheiro(struct world *w)
+{
+	struct item menu[] = {
+		{.text = "Novo", .func = NULL},
+		{.text = "Abrir", .func = NULL},
+		{.text = "Guardar", .func = NULL},
+		{.text = "SAIR", .func = NULL},
+		{.text = NULL, .func = NULL}};
+
+	int opt;
+	do {
+		title_menu("FICHEIRO");
+		show_menu(menu);
+		exec_menu(w, menu, &opt, "Opção: ");
+	} while (opt != size_menu(menu) - 1);
+}
 
 // Menu Principal
 int main_tui(struct world *w) {
@@ -37,9 +54,8 @@ int main_tui(struct world *w) {
 		{.text = "Gerir Livros", .func = tui_livros},
 		{.text = "Gerir Clientes", .func = tui_clientes},
 		{.text = "Gerir Encomendas", .func = tui_encomendas},
-		{.text = "Ficheiro", .func = tui_ficheiro},
 		{.text = "SOBRE", .func = tui_sobre},
-		{.text = "SAIR", .func = NULL},
+		{.text = "VOLTAR", .func = NULL},
 		{.text = NULL, .func = NULL}};
 
 	int opt;
@@ -100,24 +116,6 @@ void tui_encomendas(struct world *w) {
 		{.text = "VOLTAR", .func = NULL},
 		{.text = NULL, .func = NULL}
 	};
-
-	int opt;
-	do {
-		title_menu("ENCOMENDAS");
-		show_menu(menu);
-		exec_menu(w, menu, &opt, "Opção: ");
-	} while (opt != size_menu(menu) - 1);
-}
-
-
-// Menu Ficheiro
-void tui_ficheiro(struct world *w) {
-	struct item menu[] = {
-		{.text = "Novo", .func = NULL},
-		{.text = "Abrir", .func = NULL},
-		{.text = "Guardar", .func = NULL},
-		{.text = "VOLTAR", .func = NULL},
-		{.text = NULL, .func = NULL}};
 
 	int opt;
 	do {

@@ -40,8 +40,7 @@
 #define __NEXT_CONTINUE 0xE10	  // Flow control - current operation may continue
 
 typedef unsigned SISM_flag; // Definition of the SISM Flags
-typedef struct
-{
+typedef struct {
 	SISM_flag operation_mode; // Operation Mode
 	SISM_flag error;		  // Exit error code
 	SISM_flag flow;			  // Flow control

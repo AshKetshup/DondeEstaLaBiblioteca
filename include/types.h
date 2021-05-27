@@ -65,28 +65,27 @@ typedef struct {
 
 /* === Manipuladores === */
 // Manipulador de Livros (Lista Ligada)
-struct BookNode {
-	BookInfo INFO; 				// Informação do Livro
-	struct BookNode *next;		// Próximo livro na Lista
-};
-typedef struct BookNode *BookManip;
+typedef struct book_node {
+	BookInfo info; 				// Informação do Livro
+	struct book_node *next;		// Próximo livro na Lista
+} BOOK_NODE;
 
 
 // Manipulador de Encomendas (Fila/Queue)
-struct OrderNode {
-	OrderInfo INFO; 			// Informação da Encomenda
-	struct OrderNode *next;		// Proxima encomenda na Fila
-};
-typedef struct OrderNode *OrderManip;
+typedef struct order_node {
+	OrderInfo info; 			// Informação da Encomenda
+	struct order_node *next;		// Proxima encomenda na Fila
+} ORDER_NODE;
 
 
 // Manipulador de Clientes (Arvore de Pesquisa Balanceada)
-struct ClientNode {
-	ClientInfo INFO; 			// Informação do Cliente
-	struct ClientNode *left;	// Nodo à esquerda
-	struct ClientNode *right;	// Nodo à direita
-};
-typedef struct ClientNode *ClientManip;
+typedef struct client_tree
+{
+	ClientInfo info; 			// Informação do Cliente
+	struct client_tree *left;	// Nodo à esquerda
+	struct client_tree *right;	// Nodo à direita
+} CLIENT_TREE;
+
 
 
 /* === "THE WORLD" === */
@@ -100,9 +99,9 @@ struct world {
 			orders; 	  // Contador de encomendas
 	} count;
 
-	BookManip *books;	  // Lista ligada de Livros
-	ClientManip *clients; // Arvore binaria de pesquisa balanceada de Clientes
-	OrderManip *orders;   // Fila de Encomendas
+	BOOK_NODE *books;	  // Lista ligada de Livros
+	CLIENT_TREE *clients; // Arvore binaria de pesquisa balanceada de Clientes
+	ORDER_NODE *orders;	  // Fila de Encomendas
 
 	SISM status; 		  // State Machine (SISM System)
 };
@@ -110,7 +109,7 @@ struct world {
 /* === Metodos Gerais === */
 char* date_to_string(char*, date_t);
 
-/* Inicialização, atualização e finalização de "world" */ 
+/* Inicialização, atualização e finalização de "world" */
 void init_world(struct world*);
 void refresh_world(struct world*);
 void free_world(struct world*);

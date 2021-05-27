@@ -10,8 +10,8 @@
 
 
 // TODO
-void free_list() {}
-void free_tree() {}
+// void free_list() {}
+// void free_tree() {}
 
 /* Inicialização da estrutura WORLD. */
 void init_world(struct world *w) {
