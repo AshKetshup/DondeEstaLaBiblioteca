@@ -108,8 +108,7 @@ void tui_write_info(const char *fmt, ...)
 }
 
 /* Alerta (fundo vermelho) - faz parágrafo final */
-void tui_writeln_alert(const char *fmt, ...)
-{
+void tui_writeln_alert(const char *fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	tui_output("\x1b[97;101m %s \x1b[0m\n", " %s ", fmt, args);
@@ -117,8 +116,7 @@ void tui_writeln_alert(const char *fmt, ...)
 }
 
 // Branco
-void tui_writeb(const char *fmt, ...)
-{
+void tui_writeb(const char *fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	tui_output("\x1b[97m%s\x1b[0m", "%s", fmt, args);
@@ -126,8 +124,7 @@ void tui_writeb(const char *fmt, ...)
 }
 
 // Normal
-void tui_write(char const *fmt, ...)
-{
+void tui_write(char const *fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 	tui_output(fmt, fmt, args);
@@ -135,13 +132,11 @@ void tui_write(char const *fmt, ...)
 }
 
 /* Coloca parágrafos no stdout. */
-void println(void)
-{
+void println(void) {
 	printf("\n");
 }
 
-void printlnn(unsigned n)
-{
+void printlnn(unsigned n) {
 	for (; n > 0; n--)
 		println();
 }

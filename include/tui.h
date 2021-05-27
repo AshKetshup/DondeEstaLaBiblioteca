@@ -18,11 +18,14 @@
 
 #include "types.h"
 
+
 struct item
 {
 	char const *text;
 	void (*func)(struct world *w);
 };
+
+
 int size_menu(const struct item *);
 void title_menu(const char *);
 void tui_title(const char *);

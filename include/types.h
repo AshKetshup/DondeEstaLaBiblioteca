@@ -6,9 +6,11 @@
 #include <stdbool.h>
 #include "sism.h"
 
+
 #define STRMAX 256				// Valor predefenido como maximo de String
 #define ISBNDIM 14 				// Dimensão de qualquer ISBN
 #define IDIOMDIM 3				// Dimensão de Language Code ISO 639-1
+
 
 /* === TIPOS GERAIS === */
 /* Data */
@@ -17,14 +19,17 @@ typedef struct {
 	uint8_t month, day;
 } date_t;
 
+
 /* Tipo da Encomenda */
 typedef enum {
 	Buy, Sell
 } order_type;
 
+
 /* === ESTRUTURAS DE DADOS === */
 /* Encomenda */
 typedef struct {
+	uint32_t id;				// ID da compra
 	char ISBN[ISBNDIM];			// ISBN unico por Livro
 	float total_price;			// Preço Total
 	order_type type;			// (Compra ou Venda)
@@ -33,6 +38,7 @@ typedef struct {
 	uint16_t amount; 			// Quantidade de Livros encomendados
 } OrderInfo;
 
+
 /* Cliente */
 typedef struct {
 	uint32_t NIF;				// NIF (unico por cliente)
@@ -40,6 +46,7 @@ typedef struct {
 	char address[STRMAX];		// Morada do Cliente
 	OrderInfo *buy_history;		// Vetor dinamico de compras
 } ClientInfo;
+
 
 /* Livro */
 typedef struct {
@@ -55,28 +62,30 @@ typedef struct {
 	uint16_t stock_amount;		// Stock disponivel
 } BookInfo;
 
+
 /* === Manipuladores === */
 // Manipulador de Livros (Lista Ligada)
-struct BookNode {
-	BookInfo INFO; 				// Informação do Livro
-	struct BookNode *next;		// Próximo livro na Lista
-};
-typedef struct BookNode *BookManip;
+typedef struct book_node {
+	BookInfo info; 				// Informação do Livro
+	struct book_node *next;		// Próximo livro na Lista
+} BOOK_NODE;
+
 
 // Manipulador de Encomendas (Fila/Queue)
-struct OrderNode {
-	OrderInfo INFO; 			// Informação da Encomenda
-	struct OrderNode *next;		// Proxima encomenda na Fila
-};
-typedef struct OrderNode *OrderManip;
+typedef struct order_node {
+	OrderInfo info; 			// Informação da Encomenda
+	struct order_node *next;		// Proxima encomenda na Fila
+} ORDER_NODE;
+
 
 // Manipulador de Clientes (Arvore de Pesquisa Balanceada)
-struct ClientNode {
-	ClientInfo INFO; 			// Informação do Cliente
-	struct ClientNode *left;	// Nodo à esquerda
-	struct ClientNode *right;	// Nodo à direita
-};
-typedef struct ClientNode *ClientManip;
+typedef struct client_tree
+{
+	ClientInfo info; 			// Informação do Cliente
+	struct client_tree *left;	// Nodo à esquerda
+	struct client_tree *right;	// Nodo à direita
+} CLIENT_TREE;
+
 
 
 /* === "THE WORLD" === */
@@ -90,9 +99,9 @@ struct world {
 			orders; 	  // Contador de encomendas
 	} count;
 
-	BookManip *books;	  // Lista ligada de Livros
-	ClientManip *clients; // Arvore binaria de pesquisa balanceada de Clientes
-	OrderManip *orders;   // Fila de Encomendas
+	BOOK_NODE *books;	  // Lista ligada de Livros
+	CLIENT_TREE *clients; // Arvore binaria de pesquisa balanceada de Clientes
+	ORDER_NODE *orders;	  // Fila de Encomendas
 
 	SISM status; 		  // State Machine (SISM System)
 };
@@ -100,7 +109,7 @@ struct world {
 /* === Metodos Gerais === */
 char* date_to_string(char*, date_t);
 
-/* Inicialização, atualização e finalização de "world" */ 
+/* Inicialização, atualização e finalização de "world" */
 void init_world(struct world*);
 void refresh_world(struct world*);
 void free_world(struct world*);
