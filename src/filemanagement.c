@@ -1,6 +1,7 @@
 #include <string.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "filemanagement.h"
 #include "utils.h"
@@ -104,5 +105,3 @@ int save_save(struct world *w) {
         return savetofile(w, SAVE_NAME);
     return 0;
 }
-
-
