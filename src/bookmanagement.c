@@ -2,9 +2,9 @@
 #include "bookmanagement.h"
 
 
-BOOK_NODE *new_book(BookInfo book) {
+BOOK_NODE *new_book(BookInfo *book) {
     BOOK_NODE *node = malloc(sizeof(BOOK_NODE));
-    node->info = book;
+    node->info = *book;
     node->next = NULL;
     return node;
 }
@@ -56,7 +56,7 @@ BOOK_NODE *book_by_sciarea(BOOK_NODE *list, char sci_area[STRMAX]) {
 }
 
 
-BOOK_NODE *append_book(BOOK_NODE *list, BookInfo book) {
+BOOK_NODE *append_book(BOOK_NODE *list, BookInfo *book) {
     BOOK_NODE *node = new_book(book);
     if (list == NULL)
         return node;
@@ -92,9 +92,9 @@ BOOK_NODE *remove_book(BOOK_NODE *list, char isbn[ISBNDIM]) {
 }
 
 
-BOOK_NODE *edit_book(BOOK_NODE *node, BookInfo update) {
+BOOK_NODE *edit_book(BOOK_NODE *node, BookInfo *update) {
     if (node == NULL)
         return NULL;
-    node->data = update;
+    node->info = *update;
     return node;
 }

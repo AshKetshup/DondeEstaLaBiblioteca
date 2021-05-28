@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-void append_order(ORDER_QUEUE *, OrderInfo);
+void append_order(ORDER_QUEUE *, OrderInfo *);
 void remove_order(ORDER_QUEUE *, uint32_t);
 
 #endif
