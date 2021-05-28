@@ -15,16 +15,16 @@
 
 /* Inicialização da estrutura WORLD. */
 void init_world(struct world *w) {
-	memset(w, 0, sizeof *w);
+    memset(w, 0, sizeof *w);
 }
 
 /* Libertação de recursos da estrutura WORLD 
-	TODO: Adaptar para o nosso caso.
+    TODO: Adaptar para o nosso caso.
 */
 void free_world(struct world *w) {
-	free_list(w->books);
-	free_tree(w->clients);
-	free_list(w->orders);
+    free_list(w->books);
+    free_tree(w->clients);
+    free_list(w->orders);
 }
 
 // void free_world(struct world *w) {
@@ -45,22 +45,22 @@ void free_world(struct world *w) {
 
 /* Método geral - conversão de date_t para string */
 char *datetostr(char *s, date_t date) {
-	sprintf(s, "%02" PRIu8 ".%02" PRIu8 ".%04" PRIu16,
-		date.day,
-		date.month,
-		date.year
-	);
-	return s;
+    sprintf(s, "%02" PRIu8 ".%02" PRIu8 ".%04" PRIu16,
+        date.day,
+        date.month,
+        date.year
+    );
+    return s;
 }
 
 
 const char const *strofdate(date_t date) {
-	char s[11];
-	sprintf(s, "/%02" PRIu8 "/%02" PRIu8 "%04" PRIu16,
-		date.day,
-		date.month,
-		date.year
-	);
-	return (const char const *) s;
+    char s[11];
+    sprintf(s, "/%02" PRIu8 "/%02" PRIu8 "%04" PRIu16,
+        date.day,
+        date.month,
+        date.year
+    );
+    return (const char const *) s;
 }
 

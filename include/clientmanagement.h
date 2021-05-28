@@ -1,10 +1,10 @@
-#ifdef CLIENTMANAGMENT_H
+#ifndef CLIENTMANAGMENT_H
 #define CLIENTMANAGMENT_H
 
 #include "types.h"
 
-ClientInfo client_by_nif(CLIENT_TREE*, const uint32_int);
-ClientInfo client_by_name(CLIENT_TREE*, const char*);
+CLIENT_TREE *client_by_nif(CLIENT_TREE *, const uint32_t);
+CLIENT_TREE *client_by_name(CLIENT_TREE *, const char*);
 
 
 

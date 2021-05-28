@@ -12,25 +12,25 @@
 //------------------------------------------------------------------------------
 
 int loadfromfile(struct world* w, const char* fname) {
-	FILE *f = fopen(fname, "r");
+    FILE *f = fopen(fname, "r");
 
-	if (!f)
-		return __ERROR_FILE;
-	
-	// TODO: Ler os dados e Relações
+    if (!f)
+        return __ERROR_FILE;
+    
+    // TODO: Ler os dados e Relações
 
 
-	fclose(f);
+    fclose(f);
 }
 
 
 int loadfromfile(struct world *w, const char *fname) {
-	FILE *f = fopen(fname, "w");
+    FILE *f = fopen(fname, "w");
 
-	if (!f)
-		return __ERROR_FILE;
+    if (!f)
+        return __ERROR_FILE;
 
-	// TODO: Escrever os dados e Relações
+    // TODO: Escrever os dados e Relações
 
-	fclose(f);
+    fclose(f);
 }

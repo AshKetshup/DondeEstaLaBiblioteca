@@ -21,8 +21,8 @@
 
 struct item
 {
-	char const *text;
-	void (*func)(struct world *w);
+    char const *text;
+    void (*func)(struct world *w);
 };
 
 

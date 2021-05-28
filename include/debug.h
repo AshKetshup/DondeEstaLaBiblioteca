@@ -7,21 +7,21 @@
 #ifndef NDEBUG
 
 #define debug(...)                                                      \
-	do                                                                  \
-	{                                                                   \
-		fprintf(stderr, "%s:%d: %s(): ", __FILE__, __LINE__, __func__); \
-		fprintf(stderr, __VA_ARGS__);                                   \
-	} while (0)
+    do                                                                  \
+    {                                                                   \
+        fprintf(stderr, "%s:%d: %s(): ", __FILE__, __LINE__, __func__); \
+        fprintf(stderr, __VA_ARGS__);                                   \
+    } while (0)
 
 #define expects(X)                         \
-	do                                     \
-	{                                      \
-		if (!(X))                          \
-		{                                  \
-			debug("Expected '%s'.\n", #X); \
-			exit(1);                       \
-		}                                  \
-	} while (0)
+    do                                     \
+    {                                      \
+        if (!(X))                          \
+        {                                  \
+            debug("Expected '%s'.\n", #X); \
+            exit(1);                       \
+        }                                  \
+    } while (0)
 
 #define ensures(X) expects(X)
 

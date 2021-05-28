@@ -41,10 +41,10 @@
 
 typedef unsigned SISM_flag; // Definition of the SISM Flags
 typedef struct {
-	SISM_flag operation_mode; // Operation Mode
-	SISM_flag error;		  // Exit error code
-	SISM_flag flow;			  // Flow control
-	SISM_flag io;			  // I/O status (specific for files on disk)
+    SISM_flag operation_mode; // Operation Mode
+    SISM_flag error;		  // Exit error code
+    SISM_flag flow;			  // Flow control
+    SISM_flag io;			  // I/O status (specific for files on disk)
 } SISM;
 
 /* Methods */

@@ -1,9 +1,0 @@
-{
-	"C_Cpp.errorSquiggles": "Enabled",
-	"files.associations": {
-		"interact.h": "c",
-		"filemanagement.h": "c",
-		"utils.h": "c",
-		"dirent.h": "c"
-	}
-}
