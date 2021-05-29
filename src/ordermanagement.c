@@ -10,6 +10,14 @@ ORDER_NODE *new_order(OrderInfo *order) {
 }
 
 
+int count_orders(ORDER_NODE *node) {
+    if (node == NULL)
+        return 0;
+ 
+    return 1 + count(node->next);
+}
+
+
 void append_order(ORDER_QUEUE *list, OrderInfo *order) {
     ORDER_NODE *node = new_order(order);
     if (list->last == NULL) {

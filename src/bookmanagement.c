@@ -10,6 +10,14 @@ BOOK_NODE *new_book(BookInfo *book) {
 }
 
 
+int count_books(BOOK_NODE *node) {
+    if (node == NULL)
+        return 0;
+
+    return 1 + count(node->next);
+}
+
+
 BOOK_NODE *book_by_isbn(BOOK_NODE *list, char isbn[ISBNDIM]) {
     while (list != NULL) {
         if (!strcmp(list->info.isbn, isbn))
