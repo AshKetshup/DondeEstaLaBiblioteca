@@ -4,8 +4,10 @@
 
 CLIENT_TREE *new_client(ClientInfo *client) {
     CLIENT_TREE *node = malloc(sizeof(CLIENT_TREE));
+
     node->info = *client;
     node->left = node->right = NULL;
+    
     return node;
 }
 
@@ -14,7 +16,17 @@ int count_tree(CLIENT_TREE *tree) {
     if (tree == NULL)
         return 0;
 
-    return 1 + count(tree->right) + count(tree->left);
+    return 1 + count_tree(tree->right) + count_tree(tree->left);
+}
+
+int count_tree_with_address(CLIENT_TREE *tree, char *address) {
+    if (tree == NULL)
+        return 0;
+
+    return 
+        (strstr(address, tree->info.address) != NULL) +
+        count_tree_with_address(tree->right, address) +
+        count_tree_with_address(tree->left, address);
 }
 
 
@@ -30,12 +42,30 @@ int add_clients_to_array(CLIENT_TREE *node, ClientInfo *array, int i) {
     return add_clients_to_array(node->right, array, add_clients_to_array(node->left, array, ++i));
 }
 
+int add_clients_node_with_address(CLIENT_TREE *node, CLIENT_TREE **array, char *address, int i) {
+    if (node == NULL)
+        return i;
+
+    if (strstr(address, node->info.address) != NULL)
+        array[i] = node;
+
+    return 
+        add_clients_node_with_address(
+            node->right, 
+            array, 
+            address, 
+            add_clients_node_with_address(
+                node->left, array, address, ++i
+            )
+        );
+}
+
 
 ClientInfo *serialize_clients(CLIENT_TREE *client) {
     ClientInfo *serial;
 
     serial = malloc(count_tree(&client) * sizeof(ClientInfo));
-    addClientsToArray(client, serial, 0);
+    add_clients_to_array(client, serial, 0);
 
     return serial;
 }
@@ -134,7 +164,7 @@ CLIENT_TREE *client_by_nif(CLIENT_TREE *tree, const uint32_t nif) {
 }
 
 
-CLIENT_TREE *client_by_name(CLIENT_TREE *tree, char name[STRMAX]) {
+CLIENT_TREE *client_by_name(CLIENT_TREE *tree, const char name[STRMAX]) {
     if (tree == NULL)
         return NULL;
 
@@ -149,7 +179,7 @@ CLIENT_TREE *client_by_name(CLIENT_TREE *tree, char name[STRMAX]) {
 }
 
 
-CLIENT_TREE *client_by_address(CLIENT_TREE *tree, char address[STRMAX]) {
+CLIENT_TREE *client_by_address(CLIENT_TREE *tree, const char address[STRMAX]) {
     if (tree == NULL)
         return NULL;
 
@@ -161,6 +191,21 @@ CLIENT_TREE *client_by_address(CLIENT_TREE *tree, char address[STRMAX]) {
         return left;
 
     return client_by_address(tree->right, address);
+}
+
+
+CLIENT_TREE *client_by_telephone(CLIENT_TREE *tree, const uint32_t number) {
+    if (tree == NULL)
+        return NULL;
+
+    if (tree->info.telephone == number)
+        return tree;
+
+    CLIENT_TREE *left = client_by_telephone(tree->left, number);
+    if (left != NULL)
+        return left;
+
+    return client_by_telephone(tree->right, number);
 }
 
 
@@ -177,10 +222,12 @@ CLIENT_TREE *free_client(CLIENT_TREE *client) {
 CLIENT_TREE *add_client(CLIENT_TREE *tree, ClientInfo *client) {
     if (tree == NULL)
         return new_client(client);
+
     if (client->NIF < tree->left->info.NIF)
         tree->left = add_client(tree->left, client);
     else
         tree->right = add_client(tree->right, client);
+    
     return tree;
 }
 

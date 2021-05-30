@@ -18,6 +18,158 @@ int count_books(BOOK_NODE *node) {
 }
 
 
+int count_books_with_title(BOOK_NODE *b, char *title) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (strstr(title, b->info.title) != NULL)
+            ++count;
+
+        b = b->next;
+    }
+        
+    return count;
+}
+
+
+int count_books_with_author(BOOK_NODE *b, char *author) {
+    int count = 0;
+
+    while (b != NULL) {
+        if ((strcmp(b->info.fst_author, author) == 0) || (strcmp(b->info.snd_author, author) == 0))
+            ++count;
+
+        b = b->next;
+    }
+        
+    return count;
+}
+
+
+int count_books_from_year(BOOK_NODE *b, int year) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (b->info.year == year)
+            ++count;
+
+        b = b->next;
+    }
+        
+    return count;
+}
+
+
+int count_books_with_publisher(BOOK_NODE *b, char *publisher) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (strcmp(b->info.publisher, publisher) == 0)
+            ++count;
+
+        b = b->next;
+    }
+        
+    return count;
+}
+
+
+int count_books_with_sciarea(BOOK_NODE *b, char *area) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (strcmp(b->info.sci_area, area) == 0)
+            ++count;
+
+        b = b->next;
+    }
+        
+    return count;
+}
+
+
+void add_books_with_title(BOOK_NODE *b, BOOK_NODE **array, char *title) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (strstr(title, b->info.title) != NULL) {
+            array[count] = b;
+            ++count;
+        }
+
+        b = b->next;
+    }
+
+    return;
+}
+
+
+void add_books_with_author(BOOK_NODE *b, BOOK_NODE **array, char *author) {
+    int count = 0;
+
+    while (b != NULL) {
+        if ((strcmp(b->info.fst_author, author) == 0) || (strcmp(b->info.snd_author, author) == 0)) {
+            array[count] = b;
+            ++count;
+        }
+
+        b = b->next;
+    }
+
+    return;
+}
+
+
+void add_books_with_year(BOOK_NODE *b, BOOK_NODE **array, int year) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (b->info.year == year) {
+            array[count] = b;
+            ++count;
+        }
+
+        b = b->next;
+    }
+
+    return;
+}
+
+
+void add_books_with_publisher(BOOK_NODE *b, BOOK_NODE **array, char *publisher) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (strcmp(b->info.publisher, publisher) == 0) {
+            array[count] = b;
+            ++count;
+        }
+
+        b = b->next;
+    }
+
+    return;
+}
+
+
+void add_books_with_sciarea(BOOK_NODE *b, BOOK_NODE **array, char *sciarea) {
+    int count = 0;
+
+    while (b != NULL) {
+        if (strcmp(b->info.sci_area, sciarea) == 0) {
+            array[count] = b;
+            ++count;
+        }
+
+        b = b->next;
+    }
+
+    return;
+}
+
+
+
+
 BOOK_NODE *book_by_isbn(BOOK_NODE *list, char isbn[ISBNDIM]) {
     BOOK_NODE *curr = list;
     while (curr != NULL) {

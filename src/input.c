@@ -1,9 +1,9 @@
-#include "input.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include "input.h"
 #include "utils.h"
 
 #include "debug.h"
