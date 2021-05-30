@@ -9,10 +9,11 @@
 
 char* SAVE_NAME;
 
-char** saves_in_dir(const char* directory, const int p) {
+char** saves_in_dir(const char* directory, const int p, int *n) {
     DIR *d;
     struct dirent *dir;
     d = opendir(directory);
+    *n = 0;
 
     // Calcula a quantidade de saves
     int saves_amount = 0;
@@ -31,7 +32,7 @@ char** saves_in_dir(const char* directory, const int p) {
             strcpy(filesList[i], dir->d_name);
             i++;
         }
-
+    *n = i;
     closedir(d);
 
     // Imprime o array caso p_bool != 0
@@ -48,9 +49,11 @@ char** saves_in_dir(const char* directory, const int p) {
 int new_save(void) {
     char new_savefile[STRMAX];
     FILE* fptr;
+    int amount;
 
     printf("Available saves:\n");
-    char** files = saves_in_dir("../saves", 1);
+    char** files = saves_in_dir("../saves", 1, &amount);
+
 
     printf("New save name:\n");
     fgets(new_savefile, STRMAX, stdin);
@@ -58,7 +61,7 @@ int new_save(void) {
 
     int n = 0;
     if ((strcmp(new_savefile, "\n") == 0)) {
-        for (size_t i = 0; i < strlen(files); i++) {
+        for (size_t i = 0; i < amount; i++) {
             char str[STRMAX];
             sprintf(str, "save_%d.save", n);
             if (strcmp(files[i], str) == 0)
@@ -78,9 +81,10 @@ int new_save(void) {
 
 int open_save(struct world *w) {
     int selected;
+    int amount;
 
     printf("Available saves:\n");
-    char** files = saves_in_dir("../saves", 2);
+    char** files = saves_in_dir("../saves", 2, &amount);
     
     printf("Option: ");
     scanf("%d", &selected);

@@ -5,6 +5,6 @@
 #include "types.h"
 
 int loadfromfile(struct world *, const char *);
-int savetofile(const struct world *, const char *);
+int savetofile(struct world *, const char *);
 
 #endif

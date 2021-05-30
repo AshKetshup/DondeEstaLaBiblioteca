@@ -64,7 +64,7 @@ int add_clients_node_with_address(CLIENT_TREE *node, CLIENT_TREE **array, char *
 ClientInfo *serialize_clients(CLIENT_TREE *client) {
     ClientInfo *serial;
 
-    serial = malloc(count_tree(&client) * sizeof(ClientInfo));
+    serial = malloc(count_tree(client) * sizeof(ClientInfo));
     add_clients_to_array(client, serial, 0);
 
     return serial;
@@ -75,7 +75,7 @@ CLIENT_TREE *deserialize_clients(ClientInfo *info, int count) {
     CLIENT_TREE *tree = NULL;
 
     for (size_t i = 0; i < count; i++)
-        add_client(tree, new_client(info+i));
+        add_client(tree, info+i);
 
     return tree;
 }
@@ -228,7 +228,7 @@ CLIENT_TREE *add_client(CLIENT_TREE *tree, ClientInfo *client) {
     else
         tree->right = add_client(tree->right, client);
     
-    return tree;
+    return balance_tree(tree);
 }
 
 
@@ -243,7 +243,7 @@ CLIENT_TREE *next_minimum_client(CLIENT_TREE *tree, uint32_t nif) {
 }
 
 
-CLIENT_TREE *remove_client(CLIENT_TREE *tree) {
+CLIENT_TREE *remove_client(CLIENT_TREE *tree, CLIENT_TREE *target) {
     if (tree == NULL)
         return NULL;
 
@@ -268,7 +268,7 @@ CLIENT_TREE *remove_client(CLIENT_TREE *tree) {
 
     CLIENT_TREE *aux = next_minimum_client(tree, tree->info.NIF);
     tree->info = aux->info;
-    aux = remove_client(aux);
+    aux = remove_client(tree, aux);
 
     return tree;
 }
@@ -277,6 +277,8 @@ CLIENT_TREE *remove_client(CLIENT_TREE *tree) {
 CLIENT_TREE *edit_client(CLIENT_TREE *tree, ClientInfo *update) {
     if (tree == NULL)
         return NULL;
+
     tree->info = *update;
+
     return balance_tree(tree);
 }

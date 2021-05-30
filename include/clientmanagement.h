@@ -28,7 +28,7 @@ CLIENT_TREE *client_by_telephone(CLIENT_TREE *, const uint32_t);
 CLIENT_TREE *free_client(CLIENT_TREE *);
 CLIENT_TREE *add_client(CLIENT_TREE *, ClientInfo *);
 CLIENT_TREE *next_minimum_client(CLIENT_TREE *, uint32_t);
-CLIENT_TREE *remove_client(CLIENT_TREE *);
+CLIENT_TREE *remove_client(CLIENT_TREE *tree, CLIENT_TREE *target);
 CLIENT_TREE *edit_client(CLIENT_TREE *, ClientInfo *);
 
 #endif

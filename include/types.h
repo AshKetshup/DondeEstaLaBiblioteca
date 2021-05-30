@@ -11,45 +11,13 @@
 #define ISBNDIM  14             // Dimensão de qualquer ISBN
 #define IDIOMDIM 3              // Dimensão de Language Code ISO 639-1
 
-
 /* === TIPOS GERAIS === */
 /* Data */
-typedef struct {
-    uint16_t year;
-    uint8_t  month, day;
-} date_t;
-
-
-/* === Manipuladores === */
-// Manipulador de Livros (Lista Ligada)
-typedef struct book_node {
-    BookInfo info;              // Informação do Livro
-    struct book_node *next;     // Próximo livro na Lista
-} BOOK_NODE;
-
-
-// Manipulador de Encomendas Pessoais
-typedef struct order_node {
-    OrderInfo info;             // Informação da Encomenda
-    struct order_node *next;    // Proxima encomenda na Fila
-} ORDER_NODE;
-
-
-// Manipulador de Encomendas gerais (Fila/Queue)
-typedef struct order_q {
-    ORDER_NODE *head;
-    ORDER_NODE *last;
-} ORDER_QUEUE;
-
-
-// Manipulador de Clientes (Arvore de Pesquisa Balanceada)
-typedef struct client_tree
+typedef struct
 {
-    ClientInfo info;            // Informação do Cliente
-    struct client_tree *left;   // Nodo à esquerda
-    struct client_tree *right;  // Nodo à direita
-} CLIENT_TREE;
-
+    uint16_t year;
+    uint8_t month, day;
+} date_t;
 
 /* === ESTRUTURAS DE DADOS === */
 /* Encomenda */
@@ -62,6 +30,12 @@ typedef struct {
     uint16_t    amount;                 // Quantidade de Livros encomendados
 } OrderInfo;
 
+// Manipulador de Encomendas Pessoais
+typedef struct order_node
+{
+    OrderInfo info;          // Informação da Encomenda
+    struct order_node *next; // Proxima encomenda na Fila
+} ORDER_NODE;
 
 /* Cliente */
 typedef struct {
@@ -87,6 +61,28 @@ typedef struct {
     uint16_t stock_amount;              // Stock disponivel
 } BookInfo;
 
+/* === Manipuladores === */
+// Manipulador de Livros (Lista Ligada)
+typedef struct book_node
+{
+    BookInfo info;          // Informação do Livro
+    struct book_node *next; // Próximo livro na Lista
+} BOOK_NODE;
+
+// Manipulador de Clientes (Arvore de Pesquisa Balanceada)
+typedef struct client_tree
+{
+    ClientInfo info;           // Informação do Cliente
+    struct client_tree *left;  // Nodo à esquerda
+    struct client_tree *right; // Nodo à direita
+} CLIENT_TREE;
+
+// Manipulador de Encomendas gerais (Fila/Queue)
+typedef struct order_q
+{
+    ORDER_NODE *head;
+    ORDER_NODE *last;
+} ORDER_QUEUE;
 
 /* === "THE WORLD" === */
 struct world {
@@ -107,11 +103,16 @@ struct world {
 };
 
 /* === Metodos Gerais === */
-char* date_to_string(char*, date_t);
+const char *date_to_str(char *, date_t);
 
 /* Inicialização, atualização e finalização de "world" */
 void init_world(struct world*);
 void refresh_world(struct world*);
 void free_world(struct world*);
+
+void free_book_list(BOOK_NODE *);
+void free_order_list(ORDER_NODE *);
+void free_clients_tree(CLIENT_TREE *);
+void free_order_queue(ORDER_QUEUE *);
 
 #endif

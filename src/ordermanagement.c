@@ -14,14 +14,14 @@ int count_orders(ORDER_NODE *node) {
     if (node == NULL)
         return 0;
  
-    return 1 + count(node->next);
+    return 1 + count_orders(node->next);
 }
 
 
 ORDER_NODE *order_by_id(ORDER_NODE *node, uint32_t id) {
     ORDER_NODE *curr = node;
     while (curr != NULL) {
-        if (curr->info.id = id)
+        if (curr->info.id == id)
             return curr;
     
         curr = curr->next;
@@ -57,7 +57,7 @@ ORDER_NODE *remove_order_node(ORDER_NODE *head, ORDER_NODE *exclude) {
 
     ORDER_NODE *temp = head;
     while (temp->next != NULL) {
-        if ((temp->next)->info == exclude->info) {
+        if (temp->next == exclude) {
             temp->next = exclude->next;
             free(exclude);
             break;

@@ -9,13 +9,13 @@ int count_books_with_title(BOOK_NODE *, char [STRMAX]);
 int count_books_with_author(BOOK_NODE *, char [STRMAX]);
 int count_books_from_year(BOOK_NODE *, int);
 int count_books_with_publisher(BOOK_NODE *, char [STRMAX]);
-int count_books_with_area(BOOK_NODE *, char [STRMAX]);
+int count_books_with_sciarea(BOOK_NODE *, char [STRMAX]);
 
 void add_books_with_title(BOOK_NODE *, BOOK_NODE **, const char *);
 void add_books_with_author(BOOK_NODE *, BOOK_NODE **, const char *);
 void add_books_from_year(BOOK_NODE *, BOOK_NODE **, const int);
 void add_books_with_publisher(BOOK_NODE *, BOOK_NODE **, const char *);
-void add_books_with_area(BOOK_NODE *, BOOK_NODE **, const char *);
+void add_books_with_sciarea(BOOK_NODE *, BOOK_NODE **, const char *);
 
 BOOK_NODE *book_by_isbn(BOOK_NODE *, const char [ISBNDIM]);
 BOOK_NODE *book_by_title(BOOK_NODE *, const char [STRMAX]);
