@@ -21,8 +21,7 @@ int count_tree(CLIENT_TREE *tree) {
 /* ========== SERIALIZATION / DESERIALIZATION ========== */
 
 
-int add_clients_to_array(CLIENT_TREE *node, ClientInfo *array, int i)
-{
+int add_clients_to_array(CLIENT_TREE *node, ClientInfo *array, int i) {
     if (node == NULL)
         return i;
 
@@ -32,8 +31,7 @@ int add_clients_to_array(CLIENT_TREE *node, ClientInfo *array, int i)
 }
 
 
-ClientInfo *serialize_clients(CLIENT_TREE *client)
-{
+ClientInfo *serialize_clients(CLIENT_TREE *client) {
     ClientInfo *serial;
 
     serial = malloc(count_tree(&client) * sizeof(ClientInfo));
@@ -42,13 +40,12 @@ ClientInfo *serialize_clients(CLIENT_TREE *client)
     return serial;
 }
 
-// TODO HELP
-CLIENT_TREE *deserialize_clients(ClientInfo info[], int count) 
-{
+
+CLIENT_TREE *deserialize_clients(ClientInfo *info, int count) {
     CLIENT_TREE *tree = NULL;
 
     for (size_t i = 0; i < count; i++)
-        add_client(tree, new_client(info[i]));
+        add_client(tree, new_client(info+i));
 
     return tree;
 }

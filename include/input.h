@@ -10,5 +10,7 @@ size_t prompt_string(
     size_t const size);
 
 uint16_t prompt_id(const char *const promptmsg);
+float prompt_float(const char *const promptmsg);
+uint32_t prompt_uint32(const char *const promptmsg);
 
 #endif

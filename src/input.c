@@ -1,5 +1,6 @@
 #include "input.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <inttypes.h>
 #include <stdbool.h>
@@ -39,6 +40,50 @@ uint16_t prompt_id(const char *const promptmsg)
 
         int len = 0;
         int res = sscanf(buffer, "%" SCNu16 "%n", &result, &len);
+        if (res != 1 || len != strlen(buffer))
+            continue; // Invalid integer
+        else
+            valid = true;
+    }
+
+    return result;
+}
+
+float prompt_float(const char *const promptmsg)
+{
+    char buffer[16] = {0};
+    bool valid = false;
+    float result = 0.f;
+
+    while (!valid)
+    {
+        printf("%s", promptmsg);
+        accept_string(stdin, buffer, 16);
+
+        int len = 0;
+        int res = sscanf(buffer, "%f%n", &result, &len);
+        if (res != 1 || len != strlen(buffer))
+            continue; // Invalid integer
+        else
+            valid = true;
+    }
+
+    return result;
+}
+
+uint32_t prompt_uint32(const char *const promptmsg)
+{
+    char buffer[16] = {0};
+    bool valid = false;
+    uint32_t result = 0;
+
+    while (!valid)
+    {
+        printf("%s", promptmsg);
+        accept_string(stdin, buffer, 16);
+
+        int len = 0;
+        int res = sscanf(buffer, "%" PRIu32 "%n", &result, &len);
         if (res != 1 || len != strlen(buffer))
             continue; // Invalid integer
         else

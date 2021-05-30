@@ -38,7 +38,8 @@ void tui_ficheiro(struct world *w)
         {.text = "Abrir", .func = NULL},
         {.text = "Guardar", .func = NULL},
         {.text = "SAIR", .func = NULL},
-        {.text = NULL, .func = NULL}};
+        {.text = NULL, .func = NULL}
+    };
 
     int opt;
     do {

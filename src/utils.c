@@ -55,3 +55,37 @@ int getch(void) {
 
     return ch;
 }
+
+char **strtokenizer(char *str, const char *delim, int *n) {
+    if (strstr(delim, str) == NULL) {
+        *n = 0;
+        return NULL;
+    }
+
+    char **res = malloc(sizeof(char *));
+    *n = 1;
+    char *token = strtok(str, delim);
+    res[0] = malloc(strlen(token) + 1);
+    strcpy(res[0], token);
+
+    while (token != NULL) {
+        token = strtok(NULL, delim);
+        if (token == NULL)
+            break;
+        (*n)++;
+        res = realloc(res, (*n) * sizeof(char *));
+        res[*n - 1] = malloc(strlen(token) + 1);
+        strcpy(res[*n - 1], token);
+    }
+    return res;
+}
+
+void freestrvec(char **v, int n) {
+    if (v == NULL)
+        return;
+
+    for (int i = 0; i < n; i++)
+        free(v[i]);
+    
+    free(v);
+}

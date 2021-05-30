@@ -44,4 +44,7 @@ void tui_write(char const *, ...);
 void println(void);
 void printlnn(unsigned);
 
+void iter_books(BOOK_NODE *v, struct world *w, void (*f)(BookInfo const *const, struct world *));
+void iter_orders(ORDER_NODE *v, struct world *w, void (*f)(OrderInfo const *const, struct world *));
+
 #endif

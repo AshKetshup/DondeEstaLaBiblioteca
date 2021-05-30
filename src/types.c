@@ -44,7 +44,7 @@ void free_world(struct world *w) {
 
 
 /* Método geral - conversão de date_t para string */
-char *datetostr(char *s, date_t date) {
+const char const* date_to_str(char const* s, date_t date) {
     sprintf(s, "%02" PRIu8 ".%02" PRIu8 ".%04" PRIu16,
         date.day,
         date.month,
@@ -52,15 +52,3 @@ char *datetostr(char *s, date_t date) {
     );
     return s;
 }
-
-
-const char const *strofdate(date_t date) {
-    char s[11];
-    sprintf(s, "/%02" PRIu8 "/%02" PRIu8 "%04" PRIu16,
-        date.day,
-        date.month,
-        date.year
-    );
-    return (const char const *) s;
-}
-
