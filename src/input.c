@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <inttypes.h>
 #include <stdbool.h>
 #include "input.h"
 #include "utils.h"
@@ -28,18 +27,18 @@ size_t prompt_string(const char *const promptmsg, char *const dest, size_t const
     return strlen(buffer);
 }
 
-uint16_t prompt_id(const char *const promptmsg)
+unsigned short prompt_id(const char *const promptmsg)
 {
     char buffer[16] = {0};
     bool valid = false;
-    uint16_t result = 0;
+    unsigned short result = 0;
 
     while (!valid) {
         printf("%s", promptmsg);
         accept_string(stdin, buffer, 16);
 
         int len = 0;
-        int res = sscanf(buffer, "%" SCNu16 "%n", &result, &len);
+        int res = sscanf(buffer, "%hu%n", &result, &len);
         if (res != 1 || len != strlen(buffer))
             continue; // Invalid integer
         else
@@ -71,11 +70,11 @@ float prompt_float(const char *const promptmsg)
     return result;
 }
 
-uint32_t prompt_uint32(const char *const promptmsg)
+unsigned prompt_uint32(const char *const promptmsg)
 {
     char buffer[16] = {0};
     bool valid = false;
-    uint32_t result = 0;
+    unsigned result = 0;
 
     while (!valid)
     {
@@ -83,7 +82,7 @@ uint32_t prompt_uint32(const char *const promptmsg)
         accept_string(stdin, buffer, 16);
 
         int len = 0;
-        int res = sscanf(buffer, "%" SCNu32 "%n", &result, &len);
+        int res = sscanf(buffer, "%u%n", &result, &len);
         if (res != 1 || len != strlen(buffer))
             continue; // Invalid integer
         else

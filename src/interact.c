@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <inttypes.h>
 #include <time.h>
+#include <limits.h>
 
 #include "ordermanagement.h"
 #include "bookmanagement.h"
@@ -20,10 +20,10 @@ void tui_show_order(OrderInfo const *const order, struct world *w) {
         char s[11];
 
         tui_title("\t           ENCOMENDA");
-        tui_write("\t             ID: %" PRIu32 "\n", order->id);
-        tui_write("\t     Quantidade: %" PRIu16 "\n", order->amount);
-        tui_write("\t    Preço Total: %f\n",          order->total_price);
-        tui_write("\t    Efetuada em: %s\n",          date_to_str(s, order->date));
+        tui_write("\t             ID: %u\n",        order->id);
+        tui_write("\t     Quantidade: %hu\n",       order->amount);
+        tui_write("\t    Preço Total: %f\n",        order->total_price);
+        tui_write("\t    Efetuada em: %s\n",        date_to_str(s, order->date));
 
         tui_show_book(&(book_by_isbn(w->books, order->ISBN)->info));
         tui_show_client(&(client_by_nif(w->clients, order->NIF)->info), w, 0);
@@ -41,7 +41,7 @@ void tui_set_order(struct world *w) {
 
     // Gera um ID
     do
-        new.id = (uint32_t) (rand() / ((float) RAND_MAX / UINT32_MAX));
+        new.id = (unsigned) (rand() / ((float) RAND_MAX / UINT_MAX));
     while (order_by_id(w->orders->head, new.id) != NULL);
 
     // Pede ISBN
@@ -83,10 +83,10 @@ void tui_set_order(struct world *w) {
 
     // Pede NIF
     count = 0;
-    uint32_t nif;
+    unsigned nif;
     do {
         count = 0;
-        uint32_t n;
+        unsigned n;
         nif = prompt_uint32("Insira o NIF: ");
         n = nif;
         while (n != 0) {
@@ -120,15 +120,15 @@ void tui_del_order(struct world *w) {
 void tui_show_book(BookInfo const *const book) {
     if (book != NULL) {
         tui_title("\t               LIVRO");
-        tui_write("\t             ISBN: %s\n",     book->ISBN);
-        tui_write("\t           Titulo: %s\n",     book->title);
-        tui_write("\t        Autor(es): %s, %s\n", book->fst_author, book->snd_author);
-        tui_write("\t          Editora: %s\n",     book->publisher);
-        tui_write("\tAno de lançamento: %" PRIu16 "\n",     book->year);
-        tui_write("\t  Area Cientifica: %s\n",     book->sci_area);
-        tui_write("\t           Idioma: %s\n",     book->idiom);
-        tui_write("\t            Stock: %" PRIu16 "\n",     book->stock_amount);
-        tui_write("\t            Preço: %f\n",     book->price);
+        tui_write("\t             ISBN: %s\n",      book->ISBN);
+        tui_write("\t           Titulo: %s\n",      book->title);
+        tui_write("\t        Autor(es): %s, %s\n",  book->fst_author, book->snd_author);
+        tui_write("\t          Editora: %s\n",      book->publisher);
+        tui_write("\tAno de lançamento: %hu\n",     book->year);
+        tui_write("\t  Area Cientifica: %s\n",      book->sci_area);
+        tui_write("\t           Idioma: %s\n",      book->idiom);
+        tui_write("\t            Stock: %hu\n",     book->stock_amount);
+        tui_write("\t            Preço: %f\n",      book->price);
     }
 
     return;
@@ -210,7 +210,7 @@ void tui_get_book(struct world *w) {
             // Pesquisar por numero
             case 3: {
                 int count = 0;
-                uint16_t year, n;
+                unsigned short year, n;
                 year = prompt_id("Ano a pesquisar: ");
                 n = year;
                 while (n != 0) {
@@ -330,10 +330,10 @@ void tui_set_book(struct world *w) {
 
     // Pede ano 
     int count = 0;
-    uint16_t year;
+    unsigned short year;
     do {
         count = 0;
-        uint16_t n;
+        unsigned short n;
         year = prompt_id("Insira o ano de lançamento: ");
         n = year;
         while (n != 0) {
@@ -352,7 +352,7 @@ void tui_set_book(struct world *w) {
     new.price = prompt_float("Insira o preço (€/unid): ");
 
     // Pede Stock
-    uint16_t amount, n;
+    unsigned short amount, n;
     amount = prompt_id("Quantidade em stock: ");
     n = amount;
     while (n != 0) {
@@ -435,10 +435,10 @@ void tui_refresh_book(struct world *w) {
 
     // Pede ano
     int count;
-    uint16_t year;
+    unsigned short year;
     do {
         count = 0;
-        uint16_t n;
+        unsigned short n;
 
         year = prompt_id("(opcional) Editar o ano de lançamento: ");
         n = year;
@@ -458,7 +458,7 @@ void tui_refresh_book(struct world *w) {
     info.price = prompt_float("Editar o preço (€/unid): ");
 
     // Pede Stock
-    uint16_t amount, n;
+    unsigned short amount, n;
     amount = prompt_id("(opcional) Quantidade em stock: ");
     n = amount;
     while (n != 0) {
@@ -477,10 +477,10 @@ void tui_refresh_book(struct world *w) {
 void tui_show_client(ClientInfo const *const client, struct world *w, int on_off) {
     if (client != NULL) {
         tui_title("\t             CLIENTE");
-        tui_write("\t            Nome: %s\n",          client->name);
-        tui_write("\t             NIF: %" PRIu32 "\n", client->NIF);
-        tui_write("\t          Morada: %s\n",          client->address);
-        tui_write("\t        Telefone: %" PRIu32 "\n", client->telephone);
+        tui_write("\t            Nome: %s\n",       client->name);
+        tui_write("\t             NIF: %u\n",       client->NIF);
+        tui_write("\t          Morada: %s\n",       client->address);
+        tui_write("\t        Telefone: %u\n",       client->telephone);
 
         if (on_off) {
             tui_write("\tLista de Compras: \n");
@@ -511,7 +511,7 @@ void tui_get_client(struct world *w) {
         switch (opt) {
         // Pesquisar por ID
             case 0: {
-                uint32_t nif = prompt_uint32("NIF a pesquisar: ");
+                unsigned nif = prompt_uint32("NIF a pesquisar: ");
                 if (nif == 0)
                     tui_write_info("Pesquisa cancelada.\n");
                 else {
@@ -561,7 +561,7 @@ void tui_get_client(struct world *w) {
 
             // Pesquisar por numero
             case 3: {
-                uint32_t number, n;
+                unsigned number, n;
                 int count = 0;
                 number = prompt_uint32("Numero a pesquisar: ");
                 n = number;
@@ -598,9 +598,9 @@ void tui_set_client(struct world *w) {
 
     // Pede NIF
     int count;
-    uint32_t nif;
+    unsigned nif;
     do {
-        uint32_t n;
+        unsigned n;
         count = 0;
         nif = prompt_uint32("Insira o NIF: ");
         n = nif;
@@ -622,9 +622,9 @@ void tui_set_client(struct world *w) {
 
     // Pede numero de telefone
     count = 0;
-    uint32_t number;
+    unsigned number;
     do {
-        uint32_t n;
+        unsigned n;
         number = prompt_uint32("Insira o número de telefone: ");
         n = number;
         while (n != 0) {
@@ -648,9 +648,9 @@ void tui_set_client(struct world *w) {
 void tui_del_client(struct world *w) {
     // Pede NIF
     int count;
-    uint32_t nif;
+    unsigned nif;
     do {
-        uint32_t n;
+        unsigned n;
         count = 0;
         nif = prompt_uint32("Insira o NIF: ");
         n = nif;
@@ -672,7 +672,7 @@ void tui_del_client(struct world *w) {
     if (ptr != NULL)
         w->clients = remove_client(w->clients, ptr);
     else
-        tui_write("Não existe cliente com NIF '%" PRIu32 "'.\n", nif);
+        tui_write("Não existe cliente com NIF '%u'.\n", nif);
     
     return;
 }
@@ -686,10 +686,10 @@ void tui_refresh_client(struct world *w) {
 
     // Pede NIF
     int count;
-    uint32_t nif;
+    unsigned nif;
     do {
         count = 0;
-        uint32_t n;
+        unsigned n;
         nif = prompt_uint32("Selecionar NIF: ");
         n = nif;
         while (n != 0) {
@@ -703,7 +703,7 @@ void tui_refresh_client(struct world *w) {
             tui_write_error("NIF não valido.");
         ptr = client_by_nif(w->clients, nif);
         if (ptr == NULL)
-            tui_write("Não existe cliente com NIF '%" PRIu32 "'.\n", nif);
+            tui_write("Não existe cliente com NIF '%u'.\n", nif);
 
     } while (count != 9 && ptr == NULL);
 
@@ -721,9 +721,9 @@ void tui_refresh_client(struct world *w) {
     
     // Pede contacto 
     count = 0;
-    uint32_t numero;
+    unsigned numero;
     do {
-        uint32_t n;
+        unsigned n;
         numero = prompt_uint32("Editar contacto: ");
         n = numero;
         while (n != 0) {

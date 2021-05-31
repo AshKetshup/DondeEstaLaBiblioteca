@@ -20,7 +20,7 @@ void add_books_with_sciarea(BOOK_NODE *, BOOK_NODE **, const char *);
 BOOK_NODE *book_by_isbn(BOOK_NODE *, const char [ISBNDIM]);
 BOOK_NODE *book_by_title(BOOK_NODE *, const char [STRMAX]);
 BOOK_NODE *book_by_author(BOOK_NODE *, const char [STRMAX]);
-BOOK_NODE *book_by_year(BOOK_NODE *, const uint16_t);
+BOOK_NODE *book_by_year(BOOK_NODE *, const unsigned short);
 BOOK_NODE *book_by_publisher(BOOK_NODE *, const char[STRMAX]);
 BOOK_NODE *book_by_sciarea(BOOK_NODE *, const char[STRMAX]);
 

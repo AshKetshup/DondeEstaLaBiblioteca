@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdint.h>
 #include "iostream.h"
 #include "types.h"
 #include "utils.h"
@@ -11,7 +10,6 @@
 
 //------------------------------------------------------------------------------
 // FOR DEBUG PURPOSES ONLY
-#include <inttypes.h>
 #include "debug.h"
 //------------------------------------------------------------------------------
 
