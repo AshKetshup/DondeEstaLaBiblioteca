@@ -48,7 +48,7 @@ char** saves_in_dir(const char* directory, const int p, int *n) {
 
 int new_save(void) {
     char new_savefile[STRMAX];
-    FILE* fptr;
+    FILE* fptr = NULL;
     int amount;
 
     printf("Available saves:\n");

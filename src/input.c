@@ -83,7 +83,7 @@ uint32_t prompt_uint32(const char *const promptmsg)
         accept_string(stdin, buffer, 16);
 
         int len = 0;
-        int res = sscanf(buffer, "%" PRIu32 "%n", &result, &len);
+        int res = sscanf(buffer, "%" SCNu32 "%n", &result, &len);
         if (res != 1 || len != strlen(buffer))
             continue; // Invalid integer
         else

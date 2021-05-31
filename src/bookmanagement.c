@@ -92,7 +92,7 @@ void add_books_with_title(BOOK_NODE *b, BOOK_NODE **array, const char *title) {
     int count = 0;
 
     while (b != NULL) {
-        if (strstr(title, b->info.title) != NULL) {
+        if (strstr(b->info.title, title) != NULL) {
             array[count] = b;
             ++count;
         }

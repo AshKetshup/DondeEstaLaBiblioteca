@@ -21,6 +21,7 @@ int loadfromfile(struct world* w, const char* fname) {
 
 
     fclose(f);
+    return __ERROR_SUCCESS;
 }
 
 
@@ -33,4 +34,5 @@ int savetofile(struct world *w, const char *fname) {
     // TODO: Escrever os dados e Relações
 
     fclose(f);
+    return __ERROR_SUCCESS;
 }
