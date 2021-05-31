@@ -2,16 +2,9 @@
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
-#include <inttypes.h>
 
 #include "debug.h"
 
-
-
-
-// TODO
-// void free_list() {}
-// void free_tree() {}
 
 /* Inicialização da estrutura WORLD. */
 void init_world(struct world *w) {
@@ -65,7 +58,7 @@ void free_order_queue(ORDER_QUEUE *q)
 
 /* Método geral - conversão de date_t para string */
 const char *date_to_str(char *s, date_t date) {
-    sprintf(s, "%02" PRIu8 ".%02" PRIu8 ".%04" PRIu16,
+    sprintf(s, "%02hu.%02hu.%04hu",
         date.day,
         date.month,
         date.year

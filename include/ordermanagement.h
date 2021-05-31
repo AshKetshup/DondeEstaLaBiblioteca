@@ -6,7 +6,7 @@
 ORDER_NODE *new_order(OrderInfo *);
 int count_orders(ORDER_NODE *);
 
-ORDER_NODE *order_by_id(ORDER_NODE *, uint32_t);
+ORDER_NODE *order_by_id(ORDER_NODE *, unsigned);
 
 ORDER_NODE *append_order_node(ORDER_NODE *, OrderInfo *);
 ORDER_NODE *remove_order_node(ORDER_NODE *, ORDER_NODE *);

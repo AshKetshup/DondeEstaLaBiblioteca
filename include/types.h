@@ -2,7 +2,6 @@
 #define TYPES_H
 
 #include <stdlib.h>
-#include <stdint.h>
 #include <stdbool.h>
 #include "sism.h"
 
@@ -15,19 +14,21 @@
 /* Data */
 typedef struct
 {
-    uint16_t year;
-    uint8_t month, day;
+    unsigned short year;
+    unsigned short month, day;
 } date_t;
+
+
 
 /* === ESTRUTURAS DE DADOS === */
 /* Encomenda */
 typedef struct {
-    uint32_t    id;                     // ID da compra
+    unsigned    id;                     // ID da compra
     char        ISBN[ISBNDIM];          // ISBN unico por Livro
-    uint32_t    NIF;                    // NIF correspondente ao Cliente
+    unsigned    NIF;                    // NIF correspondente ao Cliente
     float       total_price;            // Preço Total
     date_t      date;                   // Data em que a encomenda foi efetuada
-    uint16_t    amount;                 // Quantidade de Livros encomendados
+    unsigned short amount;              // Quantidade de Livros encomendados
 } OrderInfo;
 
 // Manipulador de Encomendas Pessoais
@@ -39,10 +40,10 @@ typedef struct order_node
 
 /* Cliente */
 typedef struct {
-    uint32_t    NIF;                    // NIF (unico por cliente)
+    unsigned    NIF;                    // NIF (unico por cliente)
     char        name[STRMAX];           // Nome do Cliente
     char        address[STRMAX];        // Morada do Cliente
-    uint32_t    telephone;              // Numero de Telefone
+    unsigned    telephone;              // Numero de Telefone
     ORDER_NODE  *buy_history;           // Vetor dinâmico de compras
 } ClientInfo;
 
@@ -57,8 +58,8 @@ typedef struct {
     char     publisher[STRMAX];         // Nome da Editora
     char     sci_area[STRMAX];          // Nome da Area Cientifica
     float    price;                     // Valor do Livro
-    uint16_t year;                      // Ano a que foi lançado
-    uint16_t stock_amount;              // Stock disponivel
+    unsigned short year;                      // Ano a que foi lançado
+    unsigned short stock_amount;              // Stock disponivel
 } BookInfo;
 
 /* === Manipuladores === */
@@ -87,7 +88,7 @@ typedef struct order_q
 /* === "THE WORLD" === */
 struct world {
     struct {
-        uint32_t
+        unsigned
             books,          // Contador de livros
             clients,        // Contador de clientes
             buys,           // Contador de compras
