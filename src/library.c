@@ -27,8 +27,8 @@ int main(int argc, char const *argv[]) {
     debug("loadfromfile returned %X.\n", w.status.io);
 
     // 3. Execução do programa conforme o Operation Mode.
-    // main_tui(&w);
-    tui_ficheiro(&w);
+    main_tui(&w);
+    // tui_ficheiro(&w);
 
     // 4. Guarda nos ficheiros ao sair
     w.status.io = savetofile(&w, "library.save");

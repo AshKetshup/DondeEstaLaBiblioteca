@@ -142,17 +142,17 @@ void printlnn(unsigned n) {
 }
 
 
-void iter_books(BOOK_NODE *v, struct world *w, void (*f)(BookInfo const * const, struct world *)) {
+void iter_books(BOOK_NODE *v, struct world *w, void (*f)(BookInfo const, struct world *)) {
     while (v != NULL) {
-        f(&(v->info), w);
+        f(v->info, w);
         v = v->next;
     }
     return;
 }
 
-void iter_orders(ORDER_NODE *v, struct world *w, void (*f)(OrderInfo const *const, struct world *)) {
+void iter_orders(ORDER_NODE *v, struct world *w, void (*f)(OrderInfo const, struct world *)) {
     while (v != NULL) {
-        f(&(v->info), w);
+        f(v->info, w);
         v = v->next;
     }
     return;
