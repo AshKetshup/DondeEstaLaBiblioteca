@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include "types.h"
 
-int loadfromfile(struct world *);
-int savetofile(struct world *);
+int loadfromfile(struct world *, const char *fname);
+int savetofile(struct world *, const char *fname);
 void save_tree(FILE *, CLIENT_TREE *);
 
 #endif

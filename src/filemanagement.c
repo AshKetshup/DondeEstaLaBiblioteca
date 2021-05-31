@@ -46,7 +46,7 @@ char** saves_in_dir(const char* directory, const int p, int *n) {
 }
 
 
-int new_save(void) {
+void new_save(struct world *w) {
     char new_savefile[STRMAX];
     FILE* fptr = NULL;
     int amount;
@@ -74,12 +74,10 @@ int new_save(void) {
     
     fopen(new_savefile, "wb");
     fclose(fptr);
-    
-    return 1;
 }
 
 
-int open_save(struct world *w) {
+void open_save(struct world *w) {
     int selected;
     int amount;
 
@@ -93,19 +91,13 @@ int open_save(struct world *w) {
     if (strcmp(SAVE_NAME, files[selected]) != 0) {
         if (loadfromfile(w, files[selected])) {
             SAVE_NAME = files[selected];
-            return 1;
+            return;
         }
-    } else {
-        return 1;
     }
-
-    
-    return 0;
 }
 
 
-int save_save(struct world *w) {
+void save_save(struct world *w) {
     if (SAVE_NAME != NULL)
-        return savetofile(w, SAVE_NAME);
-    return 0;
+        savetofile(w, SAVE_NAME);
 }
