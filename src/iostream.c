@@ -17,31 +17,28 @@
 #define F_ORDER     "order.dat"
 #define F_BOOKS     "books.dat"
 
-int loadfromfile(struct world* w) {
-    FILE *f = fopen(F_BOOKS, "r");
+int loadfromfile(struct world* w, const char *fname) {
+    FILE *f = fopen(fname, "r");
     if (!f)
         return __ERROR_FILE;
+    
     BookInfo book;
-    while (!feof(f)) {
+    int amount;
+    fread(&amount, sizeof(int), 1, f);
+    for (int i = 0; i < amount; i++) {
         fread(&book, sizeof(BookInfo), 1, f);
         append_book(w->books, &book);
     }
-    fclose(f);
-
-    f = fopen(F_ORDER, "r");
-    if (!f)
-        return __ERROR_FILE;
+    
     OrderInfo order;
-    while (!feof(f)) {
+    fread(&amount, sizeof(int), 1, f);
+    for (int i = 0; i < amount; i++) {
         fread(&order, sizeof(OrderInfo), 1, f);
         append_order_node(w->orders->head, &order);
     }
-    fclose(f);
-
-    f = fopen(F_CLIENTS, "r");
-    if (!f)
-        return __ERROR_FILE;
-    while (!feof(f)) {
+    
+    fread(&amount, sizeof(int), 1, f);
+    for (int i = 0; i < amount; i++) {
         unsigned count;
         unsigned id;
         ClientInfo client;
@@ -81,30 +78,28 @@ void save_tree(FILE *f, CLIENT_TREE *tree) {
 }
 
 
-int savetofile(struct world *w) {
-    FILE *f = fopen(F_BOOKS, "w");
+int savetofile(struct world *w, const char *fname) {
+    FILE *f = fopen(fname, "w");
     if (!f)
         return __ERROR_FILE;
+    int amount = count_books(w->books);
+    fwrite(&amount, sizeof(int), 1, f);
     BOOK_NODE *book = w->books;
     while (book != NULL) {
         fwrite(&book->info, sizeof(BookInfo), 1, f);
         book = book->next;
     }
-    fclose(f);
-
-    f = fopen(F_ORDER, "w");
-    if (!f)
-        return __ERROR_FILE;
+    
+    amount = count_orders(w->orders->head);
+    fwrite(&amount, sizeof(int), 1, f);
     ORDER_NODE *order = w->orders->head;
     while (order != NULL) {
         fwrite(&order->info, sizeof(OrderInfo), 1, f);
         order = order->next;
     }
-    fclose(f);
-
-    f = fopen(F_CLIENTS, "w");
-    if (!f)
-        return __ERROR_FILE;
+    
+    amount = count_tree(w->clients);
+    fwrite(&amount, sizeof(int), 1, f);
     save_tree(f, w->clients);
     fclose(f);
     return __ERROR_SUCCESS;
