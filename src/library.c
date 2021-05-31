@@ -4,6 +4,8 @@
 #include "sism.h"
 #include "debug.h"
 #include "utils.h"
+#include "interact.h"
+#include "iostream.h"
 
 static const char *WORLD_FILE = "library.save";
 
@@ -26,7 +28,8 @@ int main(int argc, char const *argv[]) {
     debug("loadfromfile returned %X.\n", w.status.io);
 
     // 3. Execução do programa conforme o Operation Mode.
-    
+    main_tui(&w);
+
     return 0;
 }
 
@@ -38,7 +41,8 @@ void tui_ficheiro(struct world *w)
         {.text = "Abrir", .func = NULL},
         {.text = "Guardar", .func = NULL},
         {.text = "SAIR", .func = NULL},
-        {.text = NULL, .func = NULL}};
+        {.text = NULL, .func = NULL}
+    };
 
     int opt;
     do {
@@ -72,10 +76,10 @@ int main_tui(struct world *w) {
 // Menu Livros
 void tui_livros(struct world *w) {
     struct item menu[] = {
-        {.text = "Inserir", .func = NULL},
-        {.text = "Remover", .func = NULL},
-        {.text = "Alterar", .func = NULL},
-        {.text = "Consultar", .func = NULL},
+        {.text = "Inserir", .func = tui_set_book},
+        {.text = "Remover", .func = tui_del_book},
+        {.text = "Alterar", .func = tui_refresh_book},
+        {.text = "Consultar", .func = tui_get_book},
         {.text = "VOLTAR", .func = NULL},
         {.text =  NULL, .func = NULL}
     };
@@ -92,12 +96,12 @@ void tui_livros(struct world *w) {
 // Menu Clientes
 void tui_clientes(struct world *w) {
     struct item menu[] = {
-        {.text = "Inserir", .func = NULL},
-        {.text = "Remover", .func = NULL},
-        {.text = "Consultar", .func = NULL},
+        {.text = "Inserir", .func = tui_set_client},
+        {.text = "Remover", .func = tui_del_client},
+        {.text = "Alterar", .func = tui_refresh_client},
+        {.text = "Consultar", .func = tui_get_client},
         {.text = "VOLTAR", .func = NULL},
-        {.text = NULL, .func = NULL}
-    };
+        {.text = NULL, .func = NULL}};
 
     int opt;
     do {
@@ -111,8 +115,8 @@ void tui_clientes(struct world *w) {
 // Menu Encomendas
 void tui_encomendas(struct world *w) {
     struct item menu[] = {
-        {.text = "Inserir", .func = NULL},
-        {.text = "Remover", .func = NULL},
+        {.text = "Inserir", .func = tui_set_order},
+        {.text = "Remover", .func = tui_del_order},
         {.text = "VOLTAR", .func = NULL},
         {.text = NULL, .func = NULL}
     };
@@ -134,7 +138,6 @@ void tui_sobre(struct world *w) {
     tui_write("Version: 1.0.0\n");
     tui_write("   Date: %s %s\n", __DATE__, __TIME__);
     tui_write("Authors: Diogo Castanheira Simões");
-    tui_write("    		and");
     tui_write("		    João Pedro M. Freire\n");
     tui_write("\n\n");
 

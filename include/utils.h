@@ -9,5 +9,7 @@ long fsize(FILE *);
 int strcontains(const char *, const char *);
 char charupr(char);
 int getch(void);
+char **strtokenizer(char *, const char *, int *);
+void freestrvec(char **, int);
 
 #endif

@@ -140,3 +140,20 @@ void printlnn(unsigned n) {
     for (; n > 0; n--)
         println();
 }
+
+
+void iter_books(BOOK_NODE *v, struct world *w, void (*f)(BookInfo const * const, struct world *)) {
+    while (v != NULL) {
+        f(&(v->info), w);
+        v = v->next;
+    }
+    return;
+}
+
+void iter_orders(ORDER_NODE *v, struct world *w, void (*f)(OrderInfo const *const, struct world *)) {
+    while (v != NULL) {
+        f(&(v->info), w);
+        v = v->next;
+    }
+    return;
+}

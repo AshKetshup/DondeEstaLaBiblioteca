@@ -22,29 +22,49 @@ void init_world(struct world *w) {
     TODO: Adaptar para o nosso caso.
 */
 void free_world(struct world *w) {
-    free_list(w->books);
-    free_tree(w->clients);
-    free_list(w->orders);
+    free_book_list(w->books);
+    free_clients_tree(w->clients);
+    free_order_queue(w->orders);
 }
 
-// void free_world(struct world *w) {
-// 	free(w->uc);
-// 	for (uint32_t i = 0; i < w->count.courses; ++i)
-// 		free(w->courses[i].uc);
-// 	free(w->courses);
+void free_book_list(BOOK_NODE *v)
+{
+    BOOK_NODE *aux;
+    while (v != NULL)
+    {
+        aux = v;
+        v = v->next;
+        free(aux);
+    }
+}
 
-// 	for (uint32_t i = 0; i < w->count.professors; ++i)
-// 		free(w->professors[i].uc);
-// 	free(w->professors);
+void free_order_list(ORDER_NODE *v)
+{
+    ORDER_NODE *aux;
+    while (v != NULL)
+    {
+        aux = v;
+        v = v->next;
+        free(aux);
+    }
+}
 
-// 	for (uint32_t i = 0; i < w->count.students; ++i)
-// 		free(w->students[i].eval);
-// 	free(w->students);
-// }
+void free_clients_tree(CLIENT_TREE *c)
+{
+    if (c == NULL)
+        return;
+    free_order_list(c->info.buy_history);
+    free_clients_tree(c->left);
+    free_clients_tree(c->right);
+}
 
+void free_order_queue(ORDER_QUEUE *q)
+{
+    free_order_list(q->head);
+}
 
 /* Método geral - conversão de date_t para string */
-char *datetostr(char *s, date_t date) {
+const char *date_to_str(char *s, date_t date) {
     sprintf(s, "%02" PRIu8 ".%02" PRIu8 ".%04" PRIu16,
         date.day,
         date.month,
@@ -52,15 +72,3 @@ char *datetostr(char *s, date_t date) {
     );
     return s;
 }
-
-
-const char const *strofdate(date_t date) {
-    char s[11];
-    sprintf(s, "/%02" PRIu8 "/%02" PRIu8 "%04" PRIu16,
-        date.day,
-        date.month,
-        date.year
-    );
-    return (const char const *) s;
-}
-

@@ -1,6 +1,6 @@
-#include "iostream.h"
 #include <stdio.h>
 #include <stdint.h>
+#include "iostream.h"
 #include "types.h"
 #include "utils.h"
 #include "sism.h"
@@ -24,7 +24,7 @@ int loadfromfile(struct world* w, const char* fname) {
 }
 
 
-int loadfromfile(struct world *w, const char *fname) {
+int savetofile(struct world *w, const char *fname) {
     FILE *f = fopen(fname, "w");
 
     if (!f)

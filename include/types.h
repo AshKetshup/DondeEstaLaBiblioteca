@@ -11,40 +11,39 @@
 #define ISBNDIM  14             // Dimensão de qualquer ISBN
 #define IDIOMDIM 3              // Dimensão de Language Code ISO 639-1
 
-
 /* === TIPOS GERAIS === */
 /* Data */
-typedef struct {
+typedef struct
+{
     uint16_t year;
-    uint8_t  month, day;
+    uint8_t month, day;
 } date_t;
-
-
-/* Tipo da Encomenda */
-typedef enum {
-    Buy, Sell
-} order_type;
-
 
 /* === ESTRUTURAS DE DADOS === */
 /* Encomenda */
 typedef struct {
     uint32_t    id;                     // ID da compra
-    order_type  type;                   // (Compra ou Venda)
     char        ISBN[ISBNDIM];          // ISBN unico por Livro
+    uint32_t    NIF;                    // NIF correspondente ao Cliente
     float       total_price;            // Preço Total
     date_t      date;                   // Data em que a encomenda foi efetuada
-    uint32_t    NIF;                    // NIF correspondente ao Cliente
     uint16_t    amount;                 // Quantidade de Livros encomendados
 } OrderInfo;
 
+// Manipulador de Encomendas Pessoais
+typedef struct order_node
+{
+    OrderInfo info;          // Informação da Encomenda
+    struct order_node *next; // Proxima encomenda na Fila
+} ORDER_NODE;
 
 /* Cliente */
 typedef struct {
     uint32_t    NIF;                    // NIF (unico por cliente)
     char        name[STRMAX];           // Nome do Cliente
     char        address[STRMAX];        // Morada do Cliente
-    OrderInfo   *buy_history;           // Vetor dinâmico de compras
+    uint32_t    telephone;              // Numero de Telefone
+    ORDER_NODE  *buy_history;           // Vetor dinâmico de compras
 } ClientInfo;
 
 
@@ -62,37 +61,28 @@ typedef struct {
     uint16_t stock_amount;              // Stock disponivel
 } BookInfo;
 
-
 /* === Manipuladores === */
 // Manipulador de Livros (Lista Ligada)
-typedef struct book_node {
-    BookInfo info;              // Informação do Livro
-    struct book_node *next;     // Próximo livro na Lista
+typedef struct book_node
+{
+    BookInfo info;          // Informação do Livro
+    struct book_node *next; // Próximo livro na Lista
 } BOOK_NODE;
-
-
-// Manipulador de Encomendas (Fila/Queue)
-typedef struct order_node {
-    OrderInfo info;             // Informação da Encomenda
-    struct order_node *next;    // Proxima encomenda na Fila
-} ORDER_NODE;
-
-
-typedef struct order_q {
-    ORDER_NODE *head;
-    ORDER_NODE *last;
-} ORDER_QUEUE;
-
 
 // Manipulador de Clientes (Arvore de Pesquisa Balanceada)
 typedef struct client_tree
 {
-    ClientInfo info;            // Informação do Cliente
-    struct client_tree *left;   // Nodo à esquerda
-    struct client_tree *right;  // Nodo à direita
+    ClientInfo info;           // Informação do Cliente
+    struct client_tree *left;  // Nodo à esquerda
+    struct client_tree *right; // Nodo à direita
 } CLIENT_TREE;
 
-
+// Manipulador de Encomendas gerais (Fila/Queue)
+typedef struct order_q
+{
+    ORDER_NODE *head;
+    ORDER_NODE *last;
+} ORDER_QUEUE;
 
 /* === "THE WORLD" === */
 struct world {
@@ -107,17 +97,22 @@ struct world {
 
     BOOK_NODE   *books;     // Lista ligada de Livros
     CLIENT_TREE *clients;   // Arvore binaria de pesquisa balanceada de Clientes
-    ORDER_NODE  *orders;    // Fila de Encomendas
+    ORDER_QUEUE *orders;    // Fila de Encomendas
 
     SISM status;            // State Machine (SISM System)
 };
 
 /* === Metodos Gerais === */
-char* date_to_string(char*, date_t);
+const char *date_to_str(char *, date_t);
 
 /* Inicialização, atualização e finalização de "world" */
 void init_world(struct world*);
 void refresh_world(struct world*);
 void free_world(struct world*);
+
+void free_book_list(BOOK_NODE *);
+void free_order_list(ORDER_NODE *);
+void free_clients_tree(CLIENT_TREE *);
+void free_order_queue(ORDER_QUEUE *);
 
 #endif
