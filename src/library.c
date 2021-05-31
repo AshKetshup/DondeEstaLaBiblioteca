@@ -7,8 +7,6 @@
 #include "interact.h"
 #include "iostream.h"
 
-static const char *WORLD_FILE = "library.save";
-
 int main_tui(struct world *);
 void tui_livros(struct world *);
 void tui_clientes(struct world *);
@@ -24,13 +22,17 @@ int main(int argc, char const *argv[]) {
     debug("Operation mode: %X.\n", w.status.operation_mode);
 
     // 2. Carregamento de dados pela memoria permanente
-    w.status.io = loadfromfile(&w, WORLD_FILE);
+    w.status.io = loadfromfile(&w);
     debug("loadfromfile returned %X.\n", w.status.io);
 
     // 3. Execução do programa conforme o Operation Mode.
     main_tui(&w);
 
-    return 0;
+    // 4. Guarda nos ficheiros ao sair
+    w.status.io = savetofile(&w);
+    debug("loadfromfile returned %X.\n", w.status.io);
+
+    return w.status.error;
 }
 
 // Menu Ficheiro
