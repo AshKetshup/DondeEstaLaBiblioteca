@@ -59,15 +59,14 @@ void new_save(struct world *w) {
 
     tui_title("Saves disponiveis:");
     char** files = saves_in_dir("../saves", 1, &amount);
-    if (files == NULL) {
+    if (files == NULL)
         tui_write_info("Não existem saves no diretorio.");
-    }
 
     size_t len = prompt_string("(opcional) Novo nome de save: ", new_savefile, STRMAX);
 
     int n = 0;
     if (len == 0) {
-        for (size_t i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
             char str[STRMAX];
             sprintf(str, "save_%d.save", n);
             if (strcmp(files[i], str) == 0)

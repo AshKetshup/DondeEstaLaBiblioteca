@@ -19,10 +19,10 @@ void tui_show_order(OrderInfo const order, struct world *w) {
         char s[11];
 
         tui_title("\t           ENCOMENDA");
-        tui_write("\t             ID: %u\n",        order.id);
-        tui_write("\t     Quantidade: %hu\n",       order.amount);
-        tui_write("\t    Preço Total: %f\n",        order.total_price);
-        tui_write("\t    Efetuada em: %s\n",        date_to_str(s, order.date));
+        printf("\t             ID: %u\n",        order.id);
+        printf("\t     Quantidade: %hu\n",       order.amount);
+        printf("\t    Preço Total: %f\n",        order.total_price);
+        printf("\t    Efetuada em: %s\n",        date_to_str(s, order.date));
 
         tui_show_book(book_by_isbn(w->books, order.ISBN)->info);
         tui_show_client(client_by_nif(w->clients, order.NIF)->info, w, 0);
@@ -110,22 +110,22 @@ void tui_set_order(struct world *w) {
 
 void tui_del_order(struct world *w) {
     remove_order_queue(w->orders);
-    tui_write("Proxima encomenda na fila apagada");
+    printf("Proxima encomenda na fila apagada");
     return;
 }
 
 // LIVRO
 void tui_show_book(BookInfo const book) {
         tui_title("\t               LIVRO");
-        tui_write("\t             ISBN: %s\n",      book.ISBN);
-        tui_write("\t           Titulo: %s\n",      book.title);
-        tui_write("\t        Autor(es): %s, %s\n",  book.fst_author, book.snd_author);
-        tui_write("\t          Editora: %s\n",      book.publisher);
-        tui_write("\tAno de lançamento: %hu\n",     book.year);
-        tui_write("\t  Area Cientifica: %s\n",      book.sci_area);
-        tui_write("\t           Idioma: %s\n",      book.idiom);
-        tui_write("\t            Stock: %hu\n",     book.stock_amount);
-        tui_write("\t            Preço: %f\n",      book.price);
+        printf("\t             ISBN: %s\n",      book.ISBN);
+        printf("\t           Titulo: %s\n",      book.title);
+        printf("\t        Autor(es): %s, %s\n",  book.fst_author, book.snd_author);
+        printf("\t          Editora: %s\n",      book.publisher);
+        printf("\tAno de lançamento: %hu\n",     book.year);
+        printf("\t  Area Cientifica: %s\n",      book.sci_area);
+        printf("\t           Idioma: %s\n",      book.idiom);
+        printf("\t            Stock: %hu\n",     book.stock_amount);
+        printf("\t            Preço: %f\n",      book.price);
     return;
 }
 
@@ -160,7 +160,7 @@ void tui_get_book(struct world *w) {
                     if (ptr != NULL)
                         tui_show_book(ptr->info);
                     else
-                        tui_write("Não existe livro com ISBN '%s'.\n", isbn);
+                        printf("Não existe livro com ISBN '%s'.\n", isbn);
                 }
                 break;
             }
@@ -179,7 +179,7 @@ void tui_get_book(struct world *w) {
                             tui_show_book(ptr[i]->info);
                     }
                     else
-                        tui_write("Não existe livro com titulo '%s'.\n", titulo);
+                        printf("Não existe livro com titulo '%s'.\n", titulo);
                 }
                 break;
             }
@@ -197,7 +197,7 @@ void tui_get_book(struct world *w) {
                             tui_show_book(ptr[i]->info);
                     }
                     else
-                        tui_write("Não existe livro com autor '%s'.\n", autor);
+                        printf("Não existe livro com autor '%s'.\n", autor);
                 }
                 break;
             }
@@ -224,7 +224,7 @@ void tui_get_book(struct world *w) {
                             tui_show_book(ptr[i]->info);
                     }
                     else
-                        tui_write("Não existe cliente com numero '%d'.\n", year);
+                        printf("Não existe cliente com numero '%d'.\n", year);
                 }
                 break;
             }
@@ -242,7 +242,7 @@ void tui_get_book(struct world *w) {
                             tui_show_book(ptr[i]->info);
                     }
                     else
-                        tui_write("Não existe livro com editora '%s'.\n", editora);
+                        printf("Não existe livro com editora '%s'.\n", editora);
                 }
                 break;
             }
@@ -260,7 +260,7 @@ void tui_get_book(struct world *w) {
                             tui_show_book(ptr[i]->info);
                     }
                     else
-                        tui_write("Não existe livro com área cientifica '%s'.\n", area);
+                        printf("Não existe livro com área cientifica '%s'.\n", area);
                 }
                 break;
             }
@@ -375,7 +375,7 @@ void tui_del_book(struct world *w) {
         if (ptr != NULL)
             w->books = remove_book(w->books, isbn);
         else
-            tui_write("Não existe livro com ISBN '%s'.\n", isbn);
+            printf("Não existe livro com ISBN '%s'.\n", isbn);
     }
 
     return;
@@ -394,7 +394,7 @@ void tui_refresh_book(struct world *w) {
         else {
             ptr = &(book_by_isbn(w->books, isbn)->info);
             if (ptr == NULL)
-                tui_write("Não existe livro com ISBN '%s'.\n", isbn);
+                printf("Não existe livro com ISBN '%s'.\n", isbn);
         }
     } while (ptr != NULL);
 
@@ -471,13 +471,13 @@ void tui_refresh_book(struct world *w) {
 // CLIENTE
 void tui_show_client(ClientInfo const client, struct world *w, int on_off) {
         tui_title("\t             CLIENTE");
-        tui_write("\t            Nome: %s\n",       client.name);
-        tui_write("\t             NIF: %u\n",       client.NIF);
-        tui_write("\t          Morada: %s\n",       client.address);
-        tui_write("\t        Telefone: %u\n",       client.telephone);
+        printf("\t            Nome: %s\n",       client.name);
+        printf("\t             NIF: %u\n",       client.NIF);
+        printf("\t          Morada: %s\n",       client.address);
+        printf("\t        Telefone: %u\n",       client.telephone);
 
         if (on_off) {
-            tui_write("\tLista de Compras: \n");
+            printf("\tLista de Compras: \n");
             iter_orders(client.buy_history, w, tui_show_order);
         }
 
@@ -526,9 +526,9 @@ void tui_get_client(struct world *w) {
                 else {
                     CLIENT_TREE *ptr = client_by_name(w->clients, name);
                     if (ptr != NULL)
-                        tui_show_client(ptr->info, w, 1);
+                        tui_show_client(ptr->info, w, 0);
                     else
-                        tui_write("Não existe cliente com nome '%s'.\n", name);
+                        printf("Não existe cliente com nome '%s'.\n", name);
                 }
                 break;
             }
@@ -547,7 +547,7 @@ void tui_get_client(struct world *w) {
                             tui_show_client(ptr[i]->info, w, 0);
                     }
                     else
-                        tui_write("Não existe cliente com morada '%s'.\n", morada);
+                        printf("Não existe cliente com morada '%s'.\n", morada);
                 }
                 break;
             }
@@ -570,7 +570,7 @@ void tui_get_client(struct world *w) {
                     if (ptr != NULL)
                         tui_show_client(ptr->info, w, 1);
                     else
-                        tui_write("Não existe cliente com numero '%d'.\n", number);
+                        printf("Não existe cliente com numero '%d'.\n", number);
                 }
                 break;
             }
@@ -614,9 +614,9 @@ void tui_set_client(struct world *w) {
         return;
 
     // Pede numero de telefone
-    count = 0;
     unsigned number;
     do {
+        count = 0;
         unsigned n;
         number = prompt_uint32("Insira o número de telefone: ");
         n = number;
@@ -665,7 +665,7 @@ void tui_del_client(struct world *w) {
     if (ptr != NULL)
         w->clients = remove_client(w->clients, ptr);
     else
-        tui_write("Não existe cliente com NIF '%u'.\n", nif);
+        printf("Não existe cliente com NIF '%u'.\n", nif);
     
     return;
 }
@@ -696,7 +696,7 @@ void tui_refresh_client(struct world *w) {
             tui_write_error("NIF não valido.");
         ptr = client_by_nif(w->clients, nif);
         if (ptr == NULL)
-            tui_write("Não existe cliente com NIF '%u'.\n", nif);
+            printf("Não existe cliente com NIF '%u'.\n", nif);
 
     } while (count != 9 && ptr == NULL);
 

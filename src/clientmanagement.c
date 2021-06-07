@@ -159,8 +159,8 @@ CLIENT_TREE *client_by_nif(CLIENT_TREE *tree, const unsigned nif) {
         tree->left = client_by_nif(tree->left, nif);
     else if (nif > tree->info.NIF)
         tree->right = client_by_nif(tree->right, nif);
-    else
-        return tree;
+    
+    return tree;
 }
 
 
