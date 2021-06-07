@@ -151,7 +151,7 @@ CLIENT_TREE *rotationLeft(CLIENT_TREE *raiz) {
 }
 
 
-CLIENT_TREE *client_by_nif(CLIENT_TREE *tree, const uint32_t nif) {
+CLIENT_TREE *client_by_nif(CLIENT_TREE *tree, const unsigned nif) {
     if (tree == NULL)
         return NULL;
 
@@ -159,8 +159,8 @@ CLIENT_TREE *client_by_nif(CLIENT_TREE *tree, const uint32_t nif) {
         tree->left = client_by_nif(tree->left, nif);
     else if (nif > tree->info.NIF)
         tree->right = client_by_nif(tree->right, nif);
-    else
-        return tree;
+    
+    return tree;
 }
 
 
@@ -194,7 +194,7 @@ CLIENT_TREE *client_by_address(CLIENT_TREE *tree, const char address[STRMAX]) {
 }
 
 
-CLIENT_TREE *client_by_telephone(CLIENT_TREE *tree, const uint32_t number) {
+CLIENT_TREE *client_by_telephone(CLIENT_TREE *tree, const unsigned number) {
     if (tree == NULL)
         return NULL;
 
@@ -232,7 +232,7 @@ CLIENT_TREE *add_client(CLIENT_TREE *tree, ClientInfo *client) {
 }
 
 
-CLIENT_TREE *next_minimum_client(CLIENT_TREE *tree, uint32_t nif) {
+CLIENT_TREE *next_minimum_client(CLIENT_TREE *tree, unsigned nif) {
     if (tree->left == NULL)
         return tree;
     

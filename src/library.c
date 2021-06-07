@@ -6,8 +6,7 @@
 #include "utils.h"
 #include "interact.h"
 #include "iostream.h"
-
-static const char *WORLD_FILE = "library.save";
+#include "filemanagement.h"
 
 int main_tui(struct world *);
 void tui_livros(struct world *);
@@ -24,22 +23,27 @@ int main(int argc, char const *argv[]) {
     debug("Operation mode: %X.\n", w.status.operation_mode);
 
     // 2. Carregamento de dados pela memoria permanente
-    w.status.io = loadfromfile(&w, WORLD_FILE);
+    w.status.io = loadfromfile(&w, "library.save");
     debug("loadfromfile returned %X.\n", w.status.io);
 
     // 3. Execução do programa conforme o Operation Mode.
     main_tui(&w);
+    // tui_ficheiro(&w);
 
-    return 0;
+    // 4. Guarda nos ficheiros ao sair
+    w.status.io = savetofile(&w, "library.save");
+    debug("savetofile returned %X.\n", w.status.io);
+
+    return w.status.error;
 }
 
 // Menu Ficheiro
 void tui_ficheiro(struct world *w)
 {
     struct item menu[] = {
-        {.text = "Novo", .func = NULL},
-        {.text = "Abrir", .func = NULL},
-        {.text = "Guardar", .func = NULL},
+        {.text = "Novo", .func = new_save},
+        {.text = "Abrir", .func = open_save},
+        {.text = "Guardar", .func = save_save},
         {.text = "SAIR", .func = NULL},
         {.text = NULL, .func = NULL}
     };
@@ -49,6 +53,8 @@ void tui_ficheiro(struct world *w)
         title_menu("FICHEIRO");
         show_menu(menu);
         exec_menu(w, menu, &opt, "Opção: ");
+        if (opt == 1)
+            main_tui(w);
     } while (opt != size_menu(menu) - 1);
 }
 

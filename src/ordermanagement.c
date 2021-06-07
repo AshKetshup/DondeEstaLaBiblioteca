@@ -18,7 +18,7 @@ int count_orders(ORDER_NODE *node) {
 }
 
 
-ORDER_NODE *order_by_id(ORDER_NODE *node, uint32_t id) {
+ORDER_NODE *order_by_id(ORDER_NODE *node, unsigned id) {
     ORDER_NODE *curr = node;
     while (curr != NULL) {
         if (curr->info.id == id)

@@ -4,8 +4,10 @@
 #include <stdlib.h>
 
 #include "filemanagement.h"
+#include "input.h"
 #include "utils.h"
 #include "tui.h"
+#include "iostream.h"
 
 char* SAVE_NAME;
 
@@ -19,13 +21,17 @@ char** saves_in_dir(const char* directory, const int p, int *n) {
     int saves_amount = 0;
     while ((dir = readdir(d)) != NULL)
         if (strstr(dir->d_name, ".save"))
-            saves_amount++;
+            ++saves_amount;
     rewinddir(d);
 
-    char** filesList = (char**) malloc (saves_amount * sizeof(char*));
+    if (saves_amount != 0) {
+        closedir(d);
+        return NULL;
+    }
 
     // Atribui ao array respetivos valores 
     int i = 0;
+    char** filesList = (char**) malloc (saves_amount * sizeof(char*));
     while ((dir = readdir(d)) != NULL)
         if (strstr(dir->d_name, ".save")) {
             filesList[i] = (char*) malloc (strlen(dir->d_name)+1);
@@ -38,30 +44,29 @@ char** saves_in_dir(const char* directory, const int p, int *n) {
     // Imprime o array caso p_bool != 0
     for (i = 0; i <= saves_amount && p != 0; i++)
         if (p == 1)
-            printf("%s   ", filesList[i]);
+            tui_write("%s   ", filesList[i]);
         else if (p == 2)
-            printf("%d. %s\n", i, filesList[i]);
+            tui_write("%d > %s\n", i, filesList[i]);
 
     return filesList;
 }
 
 
-int new_save(void) {
+void new_save(struct world *w) {
     char new_savefile[STRMAX];
-    FILE* fptr;
+    FILE* fptr = NULL;
     int amount;
 
-    printf("Available saves:\n");
+    tui_title("Saves disponiveis:");
     char** files = saves_in_dir("../saves", 1, &amount);
+    if (files == NULL)
+        tui_write_info("Não existem saves no diretorio.");
 
-
-    printf("New save name:\n");
-    fgets(new_savefile, STRMAX, stdin);
-    clear_buffer(stdin);
+    size_t len = prompt_string("(opcional) Novo nome de save: ", new_savefile, STRMAX);
 
     int n = 0;
-    if ((strcmp(new_savefile, "\n") == 0)) {
-        for (size_t i = 0; i < amount; i++) {
+    if (len == 0) {
+        for (int i = 0; i < amount; i++) {
             char str[STRMAX];
             sprintf(str, "save_%d.save", n);
             if (strcmp(files[i], str) == 0)
@@ -74,38 +79,29 @@ int new_save(void) {
     
     fopen(new_savefile, "wb");
     fclose(fptr);
-    
-    return 1;
 }
 
 
-int open_save(struct world *w) {
+void open_save(struct world *w) {
     int selected;
     int amount;
 
-    printf("Available saves:\n");
-    char** files = saves_in_dir("../saves", 2, &amount);
+    tui_title("Saves disponiveis:\n");
+    char** files = saves_in_dir("../saves", 1, &amount);
+    if (files == NULL)
+        tui_write_info("Não existem saves no diretorio.");
     
-    printf("Option: ");
-    scanf("%d", &selected);
-    clear_buffer(stdin);
-
+    selected = prompt_id("Selecione:\n");
     if (strcmp(SAVE_NAME, files[selected]) != 0) {
         if (loadfromfile(w, files[selected])) {
             SAVE_NAME = files[selected];
-            return 1;
+            return;
         }
-    } else {
-        return 1;
     }
-
-    
-    return 0;
 }
 
 
-int save_save(struct world *w) {
+void save_save(struct world *w) {
     if (SAVE_NAME != NULL)
-        return savetofile(w, SAVE_NAME);
-    return 0;
+        savetofile(w, SAVE_NAME);
 }
